@@ -21,5 +21,3 @@
 1. Rename `.env.sample-<appname>` files to `.env.<appname>`
 1. Update environment variables in the `.env` files to your own configurations 
 1. Run `docker compose up`
-
-# 
