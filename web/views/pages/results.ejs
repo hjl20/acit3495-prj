@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<style>
+  table,
+  th,
+  td {
+    border: 1px solid black;
+  }
+
+  table {
+    width: 50%;
+  }
+</style>
+
+<body class="container">
+
+  <main>
+    <div>
+      <h1>RESULTS</h1>
+      <p>Statistics fetched from the Analytics service:</p>
+      <table>
+        <% Object.keys(statistics).forEach((key)=> { %>
+          <tr>
+            <th>
+              <%= key %>
+            </th>
+            <td>
+              <%= statistics[key] %>
+            </td>
+          </tr>
+          <% }); %>
+      </table>
+    </div>
+
+    <div>
+      <h2>Click below to go home:</h2>
+      <a href="/"><button>Return home</button></a>
+    </div>
+  </main>
+
+</body>
+
+</html>
