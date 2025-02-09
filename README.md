@@ -13,9 +13,28 @@
 - MongoDB Express - web interface for MongoDB
 - MySQL server
 
+## Features completed
+- Docker Compose file
+- Environment variable files
+- Web app
+  - Basic authentication
+  - Index and Results page
+- Databases
+  - Initial database creation
+
 ## TODO
 - Web app
+  - Dockerfile
+  - DB connections
+  - Save user data
+  - Fetch statistics results
 - Analytics service
+  - Dockerfile
+  - DB connections
+  - Calculate statistics
+  - Save statistics results
+- Databases
+  - Setup tables
 
 # Setup
 1. Rename `.env.<appname>-sample` files to `.env.<appname>`
