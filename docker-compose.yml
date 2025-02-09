@@ -1,0 +1,68 @@
+services:
+  # web:
+  #   build: 
+  #     context: ./web
+  #     dockerfile: Dockerfile
+  #   image: 
+  #   restart: unless-stopped
+  #   container_name: web
+  #   env_file:
+  #     - .env.mysql
+  #     - .env.mongo
+  #   environment:
+  #     - MONGO_HOSTNAME=mongo
+  #     - MYSQL_HOSTNAME=mysql
+  #   ports:
+  #     - 80:8080
+  #   volumes:
+  #     - web:/home/node/app
+  #   networks:
+  #     - app-network
+  #   command: ./wait-for.sh $MONGO_HOSTNAME:$MONGO_PORT -- ./wait-for.sh $MYSQL_HOSTNAME:$MYSQL_PORT -- /home/node/app/node_modules/.bin/nodemon app.js
+
+  # analytics:
+  #   volumes:
+  #     - analytics:
+  #   networks:
+  #     - app
+
+  mongo:
+    image: mongo:8.0.4
+    restart: unless-stopped
+    container_name: mongo
+    env_file:
+      - .env.mongo
+    volumes:
+      - mongo:/data/db
+      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+
+  mongo-express:
+    image: mongo-express:1.0.2
+    restart: unless-stopped
+    container_name: mongo-express
+    ports:
+      - 8081:8081
+    env_file:
+      - .env.mongo
+      - .env.mongo-express
+    environment:
+      - ME_CONFIG_MONGODB_SERVER=mongo
+
+  mysql:
+    image: mysql:9.2.0
+    restart: unless-stopped
+    container_name: mysql
+    env_file: 
+      - .env.mysql
+    volumes:
+      - mysql:/var/lib/mysql
+
+networks:
+  app:
+    driver: bridge
+
+volumes:
+  web:
+  analytics:
+  mongo:
+  mysql:
