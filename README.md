@@ -8,9 +8,15 @@
 - Docker
 - Docker Compose
 
-## Components
+# Setup
+1. Rename `.env.<appname>-sample` files to `.env.<appname>`
+1. Update environment variables in the `.env` files to your own configurations 
+1. Run `docker compose up`
+
+## Stack components
+- Node.js app
 - MongoDB server
-- MongoDB Express - web interface for MongoDB
+- MongoDB Express (web interface for MongoDB)
 - MySQL server
 
 ## Features completed
@@ -35,8 +41,3 @@
   - Save statistics results
 - Databases
   - Setup tables
-
-# Setup
-1. Rename `.env.<appname>-sample` files to `.env.<appname>`
-1. Update environment variables in the `.env` files to your own configurations 
-1. Run `docker compose up`
