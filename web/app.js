@@ -6,6 +6,12 @@ const express = require("express");
 const app = express();
 app.set('view engine', 'ejs');
 
+const apiRouter = require("./routes/api.js");
+app.use("/api", apiRouter);
+
+const pageRouter = require("./routes/page.js");
+app.use("/", pageRouter);
+
 
 function authentication(req, res, next) {
   const authheader = req.headers.authorization;
@@ -35,23 +41,7 @@ function authentication(req, res, next) {
   }
 }
 
-// First step is the authentication of the client
 app.use(authentication)
-
-// Routes
-app.get('/', function(req, res) {
-  res.render('pages/index');
-});
-
-app.get('/results', function(req, res) {
-  // TODO: get req to python backend to fetch stats/results
-  // statistics = get from backend api
-  // res.render('pages/results', {
-  //  statistics: stats
-  // });
-  const statistics = {stat1: "hi", stat2: "guy", stat3: "guy", stat4: "guy"}
-  res.render('pages/results', {statistics: statistics});
-});
 
 
 app.listen(port, function () {
