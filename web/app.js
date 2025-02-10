@@ -29,8 +29,7 @@ function authentication(req, res, next) {
   const user = auth[0];
   const pass = auth[1];
 
-  // if (user == process.env.WEB_ADMIN && pass == WEB_PASSWORD) {
-  if (user == "user" && pass == "pass") { // for testing
+  if (user == process.env.WEB_ADMIN && pass == WEB_PASSWORD) {
     // If Authorized user
     next();
   } else {
