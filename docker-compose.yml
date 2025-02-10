@@ -46,8 +46,6 @@ services:
     command: sh -c 'echo "running migration..."; npx knex migrate:latest; echo "migration completed"'
 
   # analytics:
-  #   volumes:
-  #     - analytics:
   #   networks:
   #     - app
 
@@ -108,7 +106,5 @@ networks:
     driver: bridge
 
 volumes:
-  web:
-  analytics:
   mongo:
   mysql:
