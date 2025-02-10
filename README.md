@@ -46,6 +46,8 @@ If you do not see your changes after rebuilding the custom **web** image, try th
 - Databases
   - Initial database creation
   - Initial table creation
+- CI/CD
+  - Build job for Web app image (manual trigger)
 
 ### TODO
 - Web app
@@ -57,3 +59,5 @@ If you do not see your changes after rebuilding the custom **web** image, try th
   - DB connections
   - Calculate statistics
   - Save statistics results
+- CI/CD
+  - Deploy job
