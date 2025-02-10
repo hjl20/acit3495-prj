@@ -17,7 +17,7 @@ If initial startup, run `docker compose up --build`
 
 Otherwise, run `docker compose up`
 
-# Troubleshooting
+## Troubleshooting
 If you do not see your changes after rebuilding the custom **web** image, try these steps: 
 1. Run `docker prune container` to remove stopped containers
 1. Run `docker prune image -a` to remove all images
@@ -31,7 +31,7 @@ If you do not see your changes after rebuilding the custom **web** image, try th
 - MongoDB Express (web interface for MongoDB)
 - MySQL server
 
-## Features completed
+### Features completed
 - Docker Compose file
   - Database health checks
   - Container startup dependencies via database health checks
@@ -47,7 +47,7 @@ If you do not see your changes after rebuilding the custom **web** image, try th
   - Initial database creation
   - Initial table creation
 
-## TODO
+### TODO
 - Web app
   - Mongo connection
   - Save user data
