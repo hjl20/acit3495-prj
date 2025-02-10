@@ -37,6 +37,7 @@ If you do not see your changes after rebuilding the custom **web** image, try th
   - Container startup dependencies via database health checks
 - Environment variable files
 - Web app
+  - Dockerfile
   - Basic authentication
   - Index and Results page
 - Databases
@@ -44,7 +45,6 @@ If you do not see your changes after rebuilding the custom **web** image, try th
 
 ## TODO
 - Web app
-  - Dockerfile
   - DB connections
   - Save user data
   - Fetch statistics results
@@ -54,4 +54,4 @@ If you do not see your changes after rebuilding the custom **web** image, try th
   - Calculate statistics
   - Save statistics results
 - Databases
-  - Setup tables
+  - Setup MySQL table(s)
