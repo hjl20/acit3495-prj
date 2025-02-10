@@ -1,24 +1,30 @@
 services:
-  # web:
-  #   build: 
-  #     context: ./web
-  #     dockerfile: Dockerfile
-  #   image: 
-  #   restart: unless-stopped
-  #   container_name: web
-  #   env_file:
-  #     - .env.mysql
-  #     - .env.mongo
-  #   environment:
-  #     - MONGO_HOSTNAME=mongo
-  #     - MYSQL_HOSTNAME=mysql
-  #   ports:
-  #     - 80:8080
-  #   volumes:
-  #     - web:/home/node/app
-  #   networks:
-  #     - app-network
-  #   command: ./wait-for.sh $MONGO_HOSTNAME:$MONGO_PORT -- ./wait-for.sh $MYSQL_HOSTNAME:$MYSQL_PORT -- /home/node/app/node_modules/.bin/nodemon app.js
+  web:
+    build: 
+      context: ./web
+      dockerfile: Dockerfile
+    image: web_app
+    restart: unless-stopped
+    container_name: web
+    env_file:
+      - .env.mysql
+      - .env.mongo
+      - .env.web
+    environment:
+      - MONGO_HOSTNAME=mongo
+      - MYSQL_HOSTNAME=mysql
+    ports:
+      - ${WEB_PORT}:${WEB_PORT}
+    # for hot changes/dev testing
+    # volumes:
+    #   - ./web:/home/node/app
+    networks:
+      - app
+    depends_on:
+      mongo:
+        condition: service_healthy
+      mysql:
+        condition: service_healthy
 
   # analytics:
   #   volumes:
@@ -35,6 +41,14 @@ services:
     volumes:
       - mongo:/data/db
       - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+    networks:
+      - app
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh mongo:$$MONGO_PORT/test --quiet
+      start_period: 5s
+      interval: 60s
+      timeout: 5s
+      retries: 10
 
   mongo-express:
     image: mongo-express:1.0.2
@@ -47,6 +61,11 @@ services:
       - .env.mongo-express
     environment:
       - ME_CONFIG_MONGODB_SERVER=mongo
+    networks:
+      - app
+    depends_on:
+      mongo:
+        condition: service_healthy
 
   mysql:
     image: mysql:9.2.0
@@ -56,6 +75,14 @@ services:
       - .env.mysql
     volumes:
       - mysql:/var/lib/mysql
+    networks:
+      - app
+    healthcheck:
+      test: mysqladmin ping -u $$MYSQL_USER --password=$$MYSQL_PASSWORD
+      start_period: 5s
+      interval: 5s
+      timeout: 5s
+      retries: 10
 
 networks:
   app:
