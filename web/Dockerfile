@@ -8,4 +8,4 @@ USER node
 RUN npm install
 COPY --chown=node:node . .
 
-ENTRYPOINT ["npx", "nodemon", "app.js"]
+CMD ["npx", "nodemon", "app.js"]

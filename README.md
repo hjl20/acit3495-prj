@@ -36,16 +36,20 @@ If you do not see your changes after rebuilding the custom **web** image, try th
   - Database health checks
   - Container startup dependencies via database health checks
 - Environment variable files
+- MySQL Migration container
 - Web app
   - Dockerfile
+  - MySQL connection
   - Basic authentication
   - Index and Results page
+  - Fetch MySQL data (may be unneeded and removed later)
 - Databases
   - Initial database creation
+  - Initial table creation
 
 ## TODO
 - Web app
-  - DB connections
+  - Mongo connection
   - Save user data
   - Fetch statistics results
 - Analytics service
@@ -53,5 +57,3 @@ If you do not see your changes after rebuilding the custom **web** image, try th
   - DB connections
   - Calculate statistics
   - Save statistics results
-- Databases
-  - Setup MySQL table(s)
