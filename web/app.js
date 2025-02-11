@@ -6,6 +6,8 @@ const express = require("express");
 const app = express();
 app.set('view engine', 'ejs');
 
+app.use(authentication)
+
 const apiRouter = require("./routes/api.js");
 app.use("/api", apiRouter);
 
@@ -39,8 +41,6 @@ function authentication(req, res, next) {
     return next(err);
   }
 }
-
-app.use(authentication)
 
 
 app.listen(port, function () {

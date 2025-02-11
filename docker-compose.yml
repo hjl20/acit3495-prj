@@ -7,11 +7,12 @@ services:
       - .env.mysql
       - .env.mongo
       - .env.web
+      - .env
     environment:
       - MONGO_HOSTNAME=mongo
       - MYSQL_HOSTNAME=mysql
     ports:
-      - ${WEB_PORT}:${WEB_PORT}
+      - ${WEB_PORT:-3000}:${WEB_PORT:-3000}
     # for hot changes/dev testing
     # volumes:
     #   - ./web:/home/node/app
