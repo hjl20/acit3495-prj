@@ -4,6 +4,9 @@ const port = process.env.WEB_PORT || 3000;
 // Requiring module
 const express = require("express");
 const app = express();
+
+app.use(express.urlencoded({ extended: true }));
+
 app.set('view engine', 'ejs');
 
 const apiRouter = require("./routes/api.js");
@@ -11,6 +14,7 @@ app.use("/api", apiRouter);
 
 const pageRouter = require("./routes/page.js");
 app.use("/", pageRouter);
+
 
 
 function authentication(req, res, next) {

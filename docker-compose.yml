@@ -45,9 +45,25 @@ services:
         condition: service_healthy
     command: sh -c 'echo "running migration..."; npx knex migrate:latest; echo "migration completed"'
 
-  # analytics:
-  #   networks:
-  #     - app
+  analytics:
+    build:
+      context: ./analytics
+      dockerfile: Dockerfile
+    image: analytics_img
+    restart: unless-stopped
+    container_name: analytics
+    ports:
+      - 5000:5000
+    env_file:
+      - .env.mysql
+      - .env.mongo
+    depends_on:
+      mongo:
+        condition: service_healthy
+      mysql:
+        condition: service_healthy
+    networks:
+      - app
 
   mongo:
     image: mongo:8.0.4
