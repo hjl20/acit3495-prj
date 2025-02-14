@@ -1,47 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
-<style>
-  table,
-  th,
-  td {
-    border: 1px solid black;
-  }
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Results</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body class="results-page">
 
-  table {
-    width: 50%;
-  }
-</style>
-
-<body class="container">
-
-  <main>
-    <div>
-      <h1>RESULTS</h1>
+  <main class="container">
+    <div class="results-box">
+      <h1>Results</h1>
       <p>Statistics fetched from the Analytics service:</p>
+      
       <table>
-        <% statistics.forEach((statistic) => { %>
+        <thead>
           <tr>
-            <!-- Iterate over each key in the statistic object -->
-            <% Object.keys(statistic).forEach((key) => { %>
-              <tr>
-                <th>
-                  <%= key %>
-                </th>
-                <td>
-                  <%= statistic[key] %>
-                </td>
-              </tr>
-            <% }); %>
-        <% }); %>
+            <th>ID</th>
+            <th>Grade</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% statistics.forEach((statistic) => { %>
+            <tr>
+              <td><%= statistic.id %></td>
+              <td><%= statistic.grade %></td>
+            </tr>
+          <% }); %>
+        </tbody>
       </table>
     </div>
 
-    <div>
+    <div class="home-btn-container">
       <h2>Click below to go home:</h2>
-      <a href="/"><button>Return home</button></a>
+      <a href="/"><button class="home-btn">Return Home</button></a>
     </div>
   </main>
 
 </body>
-
 </html>

@@ -1,0 +1,148 @@
+/* General Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #f4f4f4;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  flex-direction: column;
+}
+
+/* RESULTS PAGE STYLES */
+.results-page .container {
+  text-align: center;
+  padding: 20px;
+}
+
+.results-page .results-box {
+  background-color: white;
+  border-radius: 10px;
+  padding: 30px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 90%;
+  max-width: 500px;
+  margin-bottom: 20px;
+}
+
+.results-page h1 {
+  color: #333;
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.results-page p {
+  color: #555;
+  font-size: 16px;
+  margin-bottom: 15px;
+}
+
+/* Table Styling */
+.results-page table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+}
+
+.results-page th, .results-page td {
+  padding: 12px;
+  border: 1px solid #ddd;
+  text-align: center;
+}
+
+.results-page th {
+  background-color: #007bff;
+  color: white;
+  font-weight: bold;
+}
+
+.results-page tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.results-page tr:hover {
+  background-color: #ddd;
+}
+
+/* Home Button */
+.results-page .home-btn-container {
+  text-align: center;
+}
+
+.results-page .home-btn {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.results-page .home-btn:hover {
+  background-color: #0056b3;
+}
+
+/* SUBMIT PAGE STYLES */
+.submit-page .submit-container {
+  background-color: white;
+  border-radius: 10px;
+  padding: 30px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+}
+
+.submit-page .submit-header {
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.submit-page .submit-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.submit-page .submit-label {
+  margin-bottom: 8px;
+  font-size: 16px;
+  color: #555;
+}
+
+.submit-page .submit-input {
+  padding: 10px;
+  margin-bottom: 20px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+  transition: border-color 0.3s;
+}
+
+.submit-page .submit-input:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+.submit-page .submit-btn {
+  padding: 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.submit-page .submit-btn:hover {
+  background-color: #0056b3;
+}

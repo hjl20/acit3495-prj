@@ -32,7 +32,8 @@ router.get("/results", async function (req, res) {
     if (!statisticsCollection) {
       throw new Error("Could not find statistics collection.");
     }
-    const statistics = await statisticsCollection.find({}, { projection: { _id: 0 } }).toArray(); // Fetch all data
+     // Fetch only id and grade, excluding create_at
+     const statistics = await statisticsCollection.find({}, { projection: { id: 1, grade: 1 } }).toArray();
 
     res.render("pages/results", { statistics }); // Pass the retrieved data to frontend
   } catch (err) {
@@ -50,17 +51,20 @@ router.get('/submit', function(req, res) {
 // POST data to MySQL using Knex
 router.post('/submit', function(req, res) {
   const { grade } = req.body;
-
+  
   // Insert data into 'grades' table
   db('grades')
-    .insert({ grade })
+    .insert({ 
+      grade,
+      created_at: Math.floor(Date.now() / 1000) // Unix timestamp in seconds
+    })
     .then(() => {
       console.log("Grade inserted successfully");
-      res.send("Data saved to database.");
+      res.redirect('/?success=true'); // Redirect with query param
     })
     .catch(err => {
       console.error("Error inserting grade:", err);
-      res.status(500).send("Failed to save data.");
+      res.redirect('/?success=false'); // Redirect with error
     });
 });
 

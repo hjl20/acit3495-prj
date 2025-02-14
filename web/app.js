@@ -4,6 +4,10 @@ const port = process.env.WEB_PORT || 3000;
 // Requiring module
 const express = require("express");
 const app = express();
+const path = require('path');
+
+// Serve static files from the 'public' directory
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(express.urlencoded({ extended: true }));
 
