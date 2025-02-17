@@ -52,6 +52,12 @@ router.get('/submit', function(req, res) {
 router.post('/submit', function(req, res) {
   const { grade } = req.body;
   
+  console.log("Received grade:", grade); // Log received grade
+  
+  if (!grade) {
+    return res.status(400).json({ success: false, message: "Grade is required." });
+  }
+
   // Insert data into 'grades' table
   db('grades')
     .insert({ 
@@ -60,11 +66,11 @@ router.post('/submit', function(req, res) {
     })
     .then(() => {
       console.log("Grade inserted successfully");
-      res.send("Data saved to database.");
+      res.json({ success: true, message: "Grade inserted successfully" });
     })
     .catch(err => {
       console.error("Error inserting grade:", err);
-      res.status(500).send("Failed to save data.");
+      res.status(500).json({ success: false, message: "Failed to save data." });
     });
 });
 

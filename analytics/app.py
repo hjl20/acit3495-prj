@@ -71,11 +71,15 @@ def fetch_data():
         mysql_conn.close()
 
         if grades:
-            # Pass the data to MongoDB
-            add_to_mongo(grades)
+            # Compute min and max grades
+            max_grade = max(grade['score'] for grade in grades)
+            min_grade = min(grade['score'] for grade in grades)
 
-            # Update the last fetched timestamp to the current time
-            update_last_fetched_timestamp(end_timestamp)
+            # Store data in MongoDB
+            add_to_mongo(grades, max_grade, min_grade)
+
+            # Update timestamp.json
+            update_last_fetched_timestamp(end_timestamp, max_grade, min_grade)
 
     except mysql.connector.Error as err:
         print(f"MySQL Error: {err}")

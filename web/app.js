@@ -8,7 +8,9 @@ const path = require('path');
 
 // Serve static files from the 'public' directory
 app.use(express.static(path.join(__dirname, 'public')));
-
+// parse JSON requests
+app.use(express.json());
+// parse form data
 app.use(express.urlencoded({ extended: true }));
 
 app.set('view engine', 'ejs');
