@@ -13,6 +13,8 @@ app.use(express.urlencoded({ extended: true }));
 
 app.set('view engine', 'ejs');
 
+app.use(authentication)
+
 const apiRouter = require("./routes/api.js");
 app.use("/api", apiRouter);
 
@@ -48,7 +50,6 @@ function authentication(req, res, next) {
   }
 }
 
-app.use(authentication)
 
 
 app.listen(port, function () {

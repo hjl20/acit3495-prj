@@ -60,11 +60,11 @@ router.post('/submit', function(req, res) {
     })
     .then(() => {
       console.log("Grade inserted successfully");
-      res.redirect('/?success=true'); // Redirect with query param
+      res.send("Data saved to database.");
     })
     .catch(err => {
       console.error("Error inserting grade:", err);
-      res.redirect('/?success=false'); // Redirect with error
+      res.status(500).send("Failed to save data.");
     });
 });
 
