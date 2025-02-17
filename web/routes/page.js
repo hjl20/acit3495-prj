@@ -1,23 +1,13 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const router = express.Router();
-const db = require("../db/db.js");
+const db = require("../db/mysqldb.js");
 const mongodb = require("../db/mongodb.js")
 
 // Routes
 router.get('/', function(req, res) {
   res.render('pages/index');
 });
-
-// router.get('/results', function(req, res) {
-//   // TODO: get req to python backend to fetch stats/results
-//   // statistics = get from backend api
-//   // res.render('pages/results', {
-//   //  statistics: stats
-//   // });
-//   const statistics = {stat1: "hi", stat2: "guy", stat3: "guy", stat4: "guy"}
-//   res.render('pages/results', {statistics: statistics});
-// });
 
 // Fetch grades from MongoDB
 router.get("/results", async function (req, res) {
@@ -29,23 +19,32 @@ router.get("/results", async function (req, res) {
     }
 
     const statisticsCollection = mongodb.collection("statistics"); // Access the collection
-    if (!statisticsCollection) {
-      throw new Error("Could not find statistics collection.");
-    }
-     // Fetch only id and grade, excluding create_at
-     const statistics = await statisticsCollection.find({}, { projection: { id: 1, grade: 1 } }).toArray();
+    const gradeStatisticsCollection = mongodb.collection("grade_statistics"); // Access the grade statistics collection
 
-    res.render("pages/results", { statistics }); // Pass the retrieved data to frontend
+    // Fetch only id and grade, excluding create_at
+    const statistics = await statisticsCollection.find({}, { projection: { id: 1, grade: 1 } }).toArray();
+    // Fetch the latest min-max grade values based on the highest _id
+    const latestStats = await gradeStatisticsCollection.find().sort({ _id: -1 }).limit(1).toArray();
+
+    let minGrade = "N/A";
+    let maxGrade = "N/A";
+
+    if (latestStats.length > 0) {
+      minGrade = latestStats[0].min_grade;
+      maxGrade = latestStats[0].max_grade;
+    }
+
+    // Pass statistics + min-max values to the view
+    res.render("pages/results", { statistics, minGrade, maxGrade });
   } catch (err) {
     console.error("Error fetching statistics:", err);
     res.status(500).send("Failed to retrieve statistics.");
   }
 });
 
-
 // Render the submit form page
 router.get('/submit', function(req, res) {
-  res.render('pages/submit'); // Renders submit.ejs (where users will input grades)
+  res.render('pages/submit');
 });
 
 // POST data to MySQL using Knex

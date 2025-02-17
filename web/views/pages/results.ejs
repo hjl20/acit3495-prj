@@ -13,6 +13,13 @@
       <h1>Results</h1>
       <p>Statistics fetched from the Analytics service:</p>
       
+      <!-- Display Min and Max Grades -->
+      <div class="grade-summary">
+        <h3>Grade Summary</h3>
+        <p><strong>Max Grade:</strong> <%= maxGrade %></p>
+        <p><strong>Min Grade:</strong> <%= minGrade %></p>
+      </div>
+
       <table>
         <thead>
           <tr>
@@ -32,8 +39,8 @@
     </div>
 
     <div class="home-btn-container">
-      <h2>Click below to go home:</h2>
-      <a href="/"><button class="home-btn">Return Home</button></a>
+      <h2>Click below to go submit page:</h2>
+      <a href="/submit"><button class="home-btn">Return to Submit Page</button></a>
     </div>
   </main>
 

@@ -52,10 +52,8 @@ services:
     build:
       context: ./analytics
       dockerfile: Dockerfile
-    image: analytics_img
+    image: analytics_service
     container_name: analytics
-    ports:
-      - 5000:5000
     env_file:
       - .env.mysql
       - .env.mongo

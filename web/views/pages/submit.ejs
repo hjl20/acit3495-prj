@@ -11,23 +11,19 @@
   <div class="submit-container">
     <h1 class="submit-header">Submit Your Grade</h1>
     
-    <!-- Form to input grade -->
-    <!-- <form action="/submit" method="POST" class="submit-form">
+    <form id="gradeForm" class="submit-form">
       <label for="grade" class="submit-label">Enter Grade:</label>
       <input type="number" id="grade" name="grade" placeholder="Enter Grade" required class="submit-input">
       <button type="submit" class="submit-btn">Submit Grade</button>
     </form>
   </div>
 
-</body> -->
-    <form id="gradeForm" class="submit-form">
-      <label for="grade" class="submit-label">Enter Grade:</label>
-      <input type="number" id="grade" name="grade" placeholder="Enter Grade" required class="submit-input">
-      <button type="submit" class="submit-btn">Submit Grade</button>
-    </form>
-    </div>
+  <div class="home-btn-container">
+    <h2>Click below to go results page:</h2>
+    <a href="/results"><button class="home-btn">Return to Results Page</button></a>
+  </div>
 
-    <script>
+  <script>
     document.getElementById("gradeForm").addEventListener("submit", function(event) {
       event.preventDefault(); // Prevent default form submission
 
@@ -59,6 +55,6 @@
         alert("An unexpected error occurred.");
       });
     });
-    </script>
-  </body>
+  </script>
+</body>
 </html>

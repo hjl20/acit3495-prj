@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const db = require("../db/db.js");
+const db = require("../db/mysqldb.js");
 
 router.get("/grades", async (req, res) => {
   try {
