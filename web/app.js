@@ -50,6 +50,7 @@ function authentication(req, res, next) {
   }
 }
 
+app.use(authentication)
 
 
 app.listen(port, function () {
