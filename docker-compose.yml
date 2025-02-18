@@ -55,6 +55,9 @@ services:
     env_file:
       - .env.mysql
       - .env.mongo
+    environment:
+      - MONGO_HOSTNAME=mongo
+      - MYSQL_HOSTNAME=mysql
     depends_on:
       mongo:
         condition: service_healthy
