@@ -44,7 +44,7 @@ services:
     depends_on:
       mysql:
         condition: service_healthy
-    command: sleep 5; sh -c 'echo "running migration..."; npx knex migrate:latest; echo "migration completed"'
+    command: sh -c 'sleep 5; echo "running migration..."; npx knex migrate:latest; echo "migration completed"'
 
   analytics:
     build:

@@ -54,4 +54,4 @@ If you do not see your changes after rebuilding the custom **web** image, try th
 - Analytics Service
   - Dockerfile
   - Fetch data from MySQL database and send to MongoDB
-  - Processes the data to get the minimum and maximum values
+  - Process the data to get the minimum and maximum values
