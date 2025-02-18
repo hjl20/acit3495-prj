@@ -4,6 +4,15 @@ const port = process.env.WEB_PORT || 3000;
 // Requiring module
 const express = require("express");
 const app = express();
+const path = require('path');
+
+// Serve static files from the 'public' directory
+app.use(express.static(path.join(__dirname, 'public')));
+// parse JSON requests
+app.use(express.json());
+// parse form data
+app.use(express.urlencoded({ extended: true }));
+
 app.set('view engine', 'ejs');
 
 app.use(authentication)
@@ -13,6 +22,7 @@ app.use("/api", apiRouter);
 
 const pageRouter = require("./routes/page.js");
 app.use("/", pageRouter);
+
 
 
 function authentication(req, res, next) {

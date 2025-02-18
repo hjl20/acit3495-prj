@@ -16,4 +16,5 @@ db.createUser({
   ]
 });
 
-db.createCollection('statistics');
+db.createCollection('grades');
+db.createCollection('statistics')

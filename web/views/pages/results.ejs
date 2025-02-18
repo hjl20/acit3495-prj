@@ -1,43 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
-<style>
-  table,
-  th,
-  td {
-    border: 1px solid black;
-  }
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Results</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body class="results-page">
 
-  table {
-    width: 50%;
-  }
-</style>
-
-<body class="container">
-
-  <main>
-    <div>
-      <h1>RESULTS</h1>
+  <main class="container">
+    <div class="results-box">
+      <h1>Results</h1>
       <p>Statistics fetched from the Analytics service:</p>
+      
+      <!-- Display Min and Max Grades -->
+      <div class="grade-summary">
+        <h3>Grade Summary</h3>
+        <p><strong>Max Grade:</strong> <%= maxGrade %></p>
+        <p><strong>Min Grade:</strong> <%= minGrade %></p>
+      </div>
+
       <table>
-        <% Object.keys(statistics).forEach((key)=> { %>
+        <thead>
           <tr>
-            <th>
-              <%= key %>
-            </th>
-            <td>
-              <%= statistics[key] %>
-            </td>
+            <th>ID</th>
+            <th>Grade</th>
           </tr>
+        </thead>
+        <tbody>
+          <% gradeStats.forEach((statistic) => { %>
+            <tr>
+              <td><%= statistic.id %></td>
+              <td><%= statistic.grade %></td>
+            </tr>
           <% }); %>
+        </tbody>
       </table>
     </div>
 
-    <div>
-      <h2>Click below to go home:</h2>
-      <a href="/"><button>Return home</button></a>
+    <div class="home-btn-container">
+      <h2>Click below to go submit page:</h2>
+      <a href="/submit"><button class="home-btn">Return to Submit Page</button></a>
     </div>
   </main>
 
 </body>
-
 </html>

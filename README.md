@@ -30,6 +30,7 @@ If you do not see your changes after rebuilding the custom **web** image, try th
 - MongoDB server
 - MongoDB Express (web interface for MongoDB)
 - MySQL server
+- Processing service (Python)
 
 ### Features completed
 - Docker Compose file
@@ -40,24 +41,17 @@ If you do not see your changes after rebuilding the custom **web** image, try th
 - Web app
   - Dockerfile
   - MySQL connection
+  - Submit data to MySQL
   - Basic authentication
   - Index and Results page
   - Fetch MySQL data (may be unneeded and removed later)
+  - Mongo connection and fetch data (grades and min-max values)
 - Databases
   - Initial database creation
   - Initial table creation
 - CI/CD
   - Build job for Web app image (manual trigger)
-
-### TODO
-- Web app
-  - Mongo connection
-  - Save user data
-  - Fetch statistics results
-- Analytics service
+- Analytics Service
   - Dockerfile
-  - DB connections
-  - Calculate statistics
-  - Save statistics results
-- CI/CD
-  - Deploy job
+  - Fetch data from MySQL database and send to MongoDB
+  - Processes the data to get the minimum and maximum values

@@ -44,11 +44,27 @@ services:
     depends_on:
       mysql:
         condition: service_healthy
-    command: sh -c 'echo "running migration..."; npx knex migrate:latest; echo "migration completed"'
+    command: sleep 5; sh -c 'echo "running migration..."; npx knex migrate:latest; echo "migration completed"'
 
-  # analytics:
-  #   networks:
-  #     - app
+  analytics:
+    build:
+      context: ./analytics
+      dockerfile: Dockerfile
+    image: analytics_service
+    container_name: analytics
+    env_file:
+      - .env.mysql
+      - .env.mongo
+    environment:
+      - MONGO_HOSTNAME=mongo
+      - MYSQL_HOSTNAME=mysql
+    depends_on:
+      mongo:
+        condition: service_healthy
+      mysql:
+        condition: service_healthy
+    networks:
+      - app
 
   mongo:
     image: mongo:8.0.4
@@ -63,7 +79,7 @@ services:
       - app
     healthcheck:
       test: echo 'db.runCommand("ping").ok' | mongosh mongo:$$MONGO_PORT/test --quiet
-      start_period: 5s
+      start_period: 10s
       interval: 60s
       timeout: 5s
       retries: 10
