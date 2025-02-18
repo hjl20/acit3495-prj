@@ -84,16 +84,16 @@ def add_to_mongo(grades, max_grade, min_grade):
         mongo_uri = f"mongodb://{db.MONGO_USER}:{db.MONGO_PASSWORD}@{db.MONGO_HOST}:{db.MONGO_PORT}/{db.MONGO_DATABASE}?authSource=admin"
         client = MongoClient(mongo_uri)
         mongo_db = client[db.MONGO_DATABASE]
-        collection = mongo_db[f"{db.MONGO_GRADE_COLLECTION}"]
+        grades_collection = mongo_db["grades"]
         print("Connected to mongo")
         
         if grades:
-            collection.insert_many(grades)
+            grades_collection.insert_many(grades)
         else:
             print("No new data to insert.")
 
         # Store max/min in a separate collection
-        stats_collection = mongo_db[f"{db.MONGO_MIN_MAX_COLLECTION}"]
+        stats_collection = mongo_db["statistics"]
         stats_collection.insert_one({
             "timestamp": int(time.time()),
             "max_grade": max_grade,

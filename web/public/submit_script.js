@@ -19,7 +19,7 @@ document.getElementById("gradeForm").addEventListener("submit", function(event) 
     .then(data => {
       if (data.success) {
         alert(data.message);
-        window.location.href = "/submit"; // Reload the page
+        window.location.reload(); // Reload the page
       } else {
         alert("Error: " + data.message);
       }

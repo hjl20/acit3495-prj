@@ -3,11 +3,6 @@ const mongoose = require("mongoose");
 const router = express.Router();
 const mongodb = require("../db/mongodb.js")
 
-const {
-  MONGO_GRADE_COLLECTION,
-  MONGO_MIN_MAX_COLLECTION
-} = process.env;
-
 // Routes
 router.get('/', function(req, res) {
   res.render('pages/index');
@@ -22,8 +17,8 @@ router.get("/results", async function (req, res) {
       console.log("Connection ready");
     }
 
-    const gradeCollection = mongodb.collection(MONGO_GRADE_COLLECTION); // Access the collection
-    const minmaxCollection = mongodb.collection(MONGO_MIN_MAX_COLLECTION); // Access the grade statistics collection
+    const gradeCollection = mongodb.collection("grades"); // Access the grades collection
+    const minmaxCollection = mongodb.collection("statistics"); // Access the statistics collection
 
     // Fetch only id and grade, excluding create_at
     const gradeStats = await gradeCollection.find({}, { projection: { id: 1, grade: 1 } }).toArray();
