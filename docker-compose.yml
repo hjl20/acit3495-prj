@@ -44,9 +44,7 @@ services:
     depends_on:
       mysql:
         condition: service_healthy
-      mongo:
-        condition: service_healthy
-    command: sh -c 'echo "running migration..."; sleep 10; npx knex migrate:latest; echo "migration completed"'
+    command: sh -c 'echo "running migration..."; sleep 5; npx knex migrate:latest; echo "migration completed"'
 
   analytics:
     build:
@@ -111,7 +109,7 @@ services:
     networks:
       - app
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "$$MYSQL_USER", "--password=$$MYSQL_PASSWORD"]
+      test: mysqladmin ping -u $$MYSQL_USER --password=$$MYSQL_PASSWORD
       start_period: 5s
       interval: 5s
       timeout: 5s

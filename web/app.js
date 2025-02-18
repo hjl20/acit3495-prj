@@ -52,8 +52,6 @@ function authentication(req, res, next) {
   }
 }
 
-app.use(authentication)
-
 
 app.listen(port, function () {
   console.log(`ACIT3495 app listening on port ${port}!`);

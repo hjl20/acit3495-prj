@@ -16,5 +16,5 @@ db.createUser({
   ]
 });
 
-db.createCollection('statistics');
-db.createCollection('grade_statistics')
+db.createCollection('grade_statistics');
+db.createCollection('min_max_statistics')

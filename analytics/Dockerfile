@@ -5,10 +5,10 @@ WORKDIR /home/app
 
 RUN pip install --upgrade pip
 
-COPY requirements.txt /home/app/
-RUN pip install -r /home/app/requirements.txt
+COPY requirements.txt .
+RUN pip install -r requirements.txt
 
-COPY . /home/app/
-RUN chmod +x /home/app/app.py
+COPY . .
+RUN chmod +x app.py
 
-CMD ["python", "/home/app/app.py"]
+CMD ["python", "app.py"]

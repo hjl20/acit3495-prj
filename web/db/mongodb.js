@@ -5,7 +5,7 @@ const {
   MONGO_INITDB_ROOT_USERNAME,
   MONGO_INITDB_ROOT_PASSWORD,
   MONGO_INITDB_DATABASE,
-  MONGO_PORT
+  MONGO_PORT,
 } = process.env;
 
 // MongoDB connection string
