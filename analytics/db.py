@@ -3,7 +3,7 @@ import mysql.connector
 from pymongo import MongoClient
 
 # MongoDB Configuration
-MONGO_HOST = "mongo"
+MONGO_HOST = os.getenv("MONGO_HOST")
 MONGO_PORT = int(os.getenv("MONGO_PORT"))
 MONGO_USER = os.getenv("MONGO_INITDB_ROOT_USERNAME")
 MONGO_PASSWORD = os.getenv("MONGO_INITDB_ROOT_PASSWORD")
