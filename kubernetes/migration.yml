@@ -1,0 +1,20 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: migration
+spec:
+  template:
+    spec:
+      initContainers:
+        - name: wait-for-mysql
+          image: busybox
+          command: ['sh', '-c', 'until nc -z mysql 3306; do sleep 2; done; echo "MySQL is ready!"']
+      containers:
+        - name: migration
+          image: web_app
+          envFrom:
+            - configMapRef:
+                name: mysql-config
+          command: ["sh", "-c", "echo 'Starting migration...'; npx knex migrate:latest; echo 'Migration completed!'"]
+      restartPolicy: Never
+  backoffLimit: 4  # Limits retries if migration fails
