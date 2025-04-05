@@ -55,3 +55,78 @@ If you do not see your changes after rebuilding the custom **web** image, try th
   - Dockerfile
   - Fetch data from MySQL database and send to MongoDB
   - Process the data to get the minimum and maximum values
+
+
+## Cloud and Kubernetes deployment
+
+### AWS cluster
+
+1. Create the AWS cluster with this command
+
+```eksctl create cluster --name=<clustername> -- region=<regionname> --node-type=<node> --managed```
+
+Example of the command above:
+
+```eksctl create cluster --name=project2 ---region=us-west-2 --node-type=t3.small --managed```
+
+2. Creation of the cluster will take around 15 minutes
+
+3. Once the cluster is ready, you can now enter kubectl commands in your cli
+
+### Deploy the App
+1. Ensure you are in the root directory. Create a configmap using the mongo-init.js script
+
+```kubectl create configmap mongo-init-script --from-file=mongo-init.js```
+
+2. Go to the kubernetes folder and apply the rest of the configmaps using the yaml files
+
+```kubectl apply -f mysql-config.yml```
+
+```kubectl apply -f mongo-config.yml```
+
+```kubectl apply -f web-config.yml```
+
+3. Deploy mysql and mongo databases
+
+```kubectl apply -f mysql.yml```
+
+```kubectl apply -f mongo.yml```
+
+4. The next steps requires mysql and mongo pods to be completely ready. Enter either one of these commands to check the status of the mysql and mongo pods:
+
+```kubectl get pods```
+
+```kubectl get pods --watch```
+
+Both pods needs to say '1/1 Running'
+
+5. Run the migration job
+
+```kubectl apply -f migration.yml```
+
+Wait for the job to be completed
+
+6. Deploy web and analytics services
+
+```kubectl apply -f web.yml```
+
+```kubectl apply -f analytics.yml```
+
+7. Get the exposed DNS
+
+```kubectl get svc```
+
+### Test the self healing capabilities of the frontend
+
+1. Delete one of the web pods
+
+```kubectl delete pod <podname>```
+
+2. Watch the pod get deleted and k8s to create a new pod
+
+```kubectl get pods --watch```
+
+### Delete cluster
+1. Enter the command below to delete cluster
+
+```eksctl delete cluster --name=<clustername> --region=<regionname>```

@@ -15,16 +15,23 @@ spec:
     spec:
       containers:
         - name: analytics
-          image: analytics_service
+          image: jparras1/analytics:latest
           envFrom:
-            - configMapRef:
-                name: app-config
-          readinessProbe:
-            httpGet:
-              path: /health # add to app.js just to see the health of the pod?
-              port: 5000
-            initialDelaySeconds: 5
-            periodSeconds: 10
+          - configMapRef:
+              name: mysql-config
+          - configMapRef:
+              name: mongo-config
+          env:
+          - name: MONGO_HOSTNAME
+            value: mongo
+          - name: MYSQL_HOSTNAME
+            value: mysql
+          # readinessProbe:
+          #   httpGet:
+          #     path: /health # add to app.js just to see the health of the pod?
+          #     port: 5000
+          #   initialDelaySeconds: 5
+          #   periodSeconds: 10
       initContainers:
         - name: wait-for-mysql
           image: busybox

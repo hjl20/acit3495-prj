@@ -82,11 +82,16 @@ def fetch_data():
 def add_to_mongo(grades, max_grade, min_grade):
     try:
         mongo_uri = f"mongodb://{db.MONGO_USER}:{db.MONGO_PASSWORD}@{db.MONGO_HOST}:{db.MONGO_PORT}/{db.MONGO_DATABASE}?authSource=admin"
+        print(mongo_uri)
         client = MongoClient(mongo_uri)
+        print(client)
         mongo_db = client[db.MONGO_DATABASE]
+        print(mongo_db)
         grades_collection = mongo_db["grades"]
+        print(grades_collection)
         print("Connected to mongo")
         
+        print(grades)
         if grades:
             grades_collection.insert_many(grades)
         else:
