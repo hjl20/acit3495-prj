@@ -6,5 +6,3 @@ data:
   MONGO_HOSTNAME: mongo
   MYSQL_HOSTNAME: mysql
   WEB_PORT: "3000"
-  WEB_ADMIN: "webadmin"
-  WEB_PASSWORD: "web123!"
