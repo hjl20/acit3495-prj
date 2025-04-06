@@ -27,7 +27,6 @@ app.use("/", pageRouter);
 
 function authentication(req, res, next) {
   const authheader = req.headers.authorization;
-  console.log(req.headers);
 
   if (!authheader) {
     let err = new Error('You are not authenticated!');
