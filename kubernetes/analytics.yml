@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: analytics
+  namespace: default
 spec:
   replicas: 1
   selector:
@@ -26,13 +27,19 @@ spec:
               name: mongo-secret
           env:
           - name: MONGO_HOSTNAME
-            value: mongo
+            valueFrom:
+              configMapKeyRef:
+                name: app-config
+                value: MONGO_HOSTNAME
           - name: MYSQL_HOSTNAME
-            value: mysql
+            valueFrom:
+              configMapKeyRef:
+                name: app-config
+                value: MYSQL_HOSTNAME
       initContainers:
         - name: wait-for-mysql
           image: busybox
-          command: ['sh', '-c', 'until nc -z mysql 3306; do sleep 2; done;']
+          command: ['sh', '-c', 'until nc -z mysql-svc 3306; do sleep 2; done;']
         - name: wait-for-mongo
           image: busybox
-          command: ['sh', '-c', 'until nc -z mongo 27017; do sleep 2; done;']
+          command: ['sh', '-c', 'until nc -z mongo-svc 27017; do sleep 2; done;']
