@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: analytics
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: analytics
+  template:
+    metadata:
+      labels:
+        app: analytics
+    spec:
+      containers:
+        - name: analytics
+          image: jparras1/analytics:latest
+          envFrom:
+          - configMapRef:
+              name: mysql-config
+          - secretRef:
+              name: mysql-secret
+          - configMapRef:
+              name: mongo-config
+          - secretRef:
+              name: mongo-secret
+          env:
+          - name: MONGO_HOSTNAME
+            valueFrom:
+              configMapKeyRef:
+                name: app-config
+                key: MONGO_HOSTNAME
+          - name: MYSQL_HOSTNAME
+            valueFrom:
+              configMapKeyRef:
+                name: app-config
+                key: MYSQL_HOSTNAME
+      initContainers:
+        - name: wait-for-mysql
+          image: busybox
+          command: ['sh', '-c', 'until nc -z mysql-svc 3306; do sleep 2; done; echo "MySQL is ready! Exiting.."']
+        - name: wait-for-mongo
+          image: busybox
+          command: ['sh', '-c', 'until nc -z mongo-svc 27017; do sleep 2; done; echo "Mongo is ready! Exiting.."']

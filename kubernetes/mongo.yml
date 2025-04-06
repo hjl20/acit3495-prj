@@ -1,0 +1,82 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: mongo-pv
+spec:
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: /mnt/data/mongo
+
+---
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mongo-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 512m
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mongo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mongo
+  template:
+    metadata:
+      labels:
+        app: mongo
+    spec:
+      containers:
+      - name: mongo
+        image: mongo:8.0.4
+        envFrom:
+          - configMapRef:
+              name: mongo-config
+          - secretRef:
+              name: mongo-secret
+        volumeMounts:
+          - mountPath: /data/db
+            name: mongo-storage
+          - mountPath: /docker-entrypoint-initdb.d/mongo-init.js
+            name: init-script
+            subPath: mongo-init.js
+        ports:
+          - containerPort: 27017
+        readinessProbe:
+          exec:
+            command: ["mongosh", "--eval", "db.runCommand({ ping: 1 })"]
+          initialDelaySeconds: 10
+          periodSeconds: 5
+      volumes:
+        - name: mongo-storage
+          persistentVolumeClaim:
+            claimName: mongo-pvc
+        - name: init-script
+          configMap:
+            name: mongo-init-script
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongo-svc
+spec:
+  type: ClusterIP
+  ports:
+    - port: 27017
+  selector:
+    app: mongo

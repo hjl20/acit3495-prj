@@ -8,11 +8,12 @@
 - Docker
 - Docker Compose
 
-# Setup
+# Docker 
+## Setup
 1. Rename `.env.<appname>-sample` files to `.env.<appname>`
 1. Update environment variables in the `.env` files to your own configurations
 
-# Start up
+## Start up
 If initial startup, run `docker compose up --build`
 
 Otherwise, run `docker compose up`
@@ -55,3 +56,68 @@ If you do not see your changes after rebuilding the custom **web** image, try th
   - Dockerfile
   - Fetch data from MySQL database and send to MongoDB
   - Process the data to get the minimum and maximum values
+
+
+# Cloud and Kubernetes deployment
+## AWS Cluster Setup
+
+1. Create the AWS cluster with this command
+
+```eksctl create cluster --name=<clustername> -- region=<regionname> --node-type=<node> --managed```
+
+Example of the command above:
+
+```eksctl create cluster --name=project2 --region=us-west-2 --node-type=t3.small --managed```
+
+2. Creation of the cluster will take around 15 minutes
+
+3. Once the cluster is ready, you can now enter kubectl commands in your cli
+
+## Deploy the App
+1. From the root directory, run the following:
+```./k8s-deploy.sh```
+
+## Teardown the App
+1. From the root directory, run the following:
+```./k8s-teardown.sh```
+
+### Test the self healing capabilities of the frontend
+
+1. Delete one of the web pods
+
+```kubectl delete pod <podname> -n acit3495prj2```
+
+2. Watch the pod get deleted and k8s to create a new pod
+
+```kubectl get pods --watch -n acit3495prj2```
+
+## Delete cluster
+1. Enter the command below to delete cluster
+
+```eksctl delete cluster --name=<clustername> --region=<regionname>```
+
+
+## AutoScaling test
+1. Create the pod that handles the autoscaling
+
+```kubectl apply -f kubernetes/web-hpa.yml```
+
+2. Simulate a heavy load being applied to web service
+
+```kubectl run -i --tty load-generator --rm --image=busybox:1.28 --restart=Never -- /bin/sh -c "while sleep 0.01; do wget -q -O- http://web-lb; done"```
+
+3. Scale up the web service
+
+Open another terminal and run this command to see the changes in the replicas
+
+```kubectl get hpa web-hpa --watch```
+
+Once the cpu usage exceeds the allowable cpu target, it will start creating replicas (this may take a few minutes)
+
+4. Scale down the service
+
+Remove the load by simply entering Ctrl+C from the created pod on #2
+
+Once the cpu usage drops to 0%, the autoscaler will terminate the replicated pods. This will also take some time so for presentation purposes, it should look like the screenshot below
+
+![alt text](image.png)

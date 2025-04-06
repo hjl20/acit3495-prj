@@ -46,4 +46,9 @@ router.get('/submit', function(req, res) {
   res.render('pages/submit');
 });
 
+// Healthcheck endpoint
+router.get('/health', (req, res) => {
+  res.status(200).json({ status: 'ok' });
+});
+
 module.exports = router;
