@@ -26,7 +26,10 @@ spec:
               configMapKeyRef:
                 name: app-config
                 key: MYSQL_HOSTNAME
-        command: ["sh", "-c", "until nc -z mysql-svc 3306; do sleep 2; done; echo 'MySQL is ready! Starting migration...'; npx knex migrate:latest; echo 'Migration completed!'"]
+        command: ['sh', '-c', 'until nc -z mysql-svc 3306; do sleep 2; done; echo "MySQL is ready! Starting migration.."; npx knex migrate:latest; echo "Migration completed! Exiting.."']
+      - name: wait-for-mongo
+        image: busybox
+        command: ['sh', '-c', 'until nc -z mongo-svc 27017; do sleep 2; done; echo "Mongo is ready! Exiting.."']
       containers:
       - name: web
         image: jparras1/migration:latest
