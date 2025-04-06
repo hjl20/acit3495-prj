@@ -20,6 +20,12 @@ spec:
             name: mysql-config
         - secretRef:
             name: mysql-secret
+        env:
+          - name: MYSQL_HOSTNAME
+            valueFrom:
+              configMapKeyRef:
+                name: app-config
+                key: MYSQL_HOSTNAME
         command: ["sh", "-c", "until nc -z mysql-svc 3306; do sleep 2; done; echo 'MySQL is ready! Starting migration...'; npx knex migrate:latest; echo 'Migration completed!'"]
       containers:
       - name: web
