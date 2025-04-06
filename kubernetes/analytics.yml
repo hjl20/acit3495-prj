@@ -2,7 +2,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: analytics
-  namespace: default
 spec:
   replicas: 1
   selector:
@@ -39,7 +38,7 @@ spec:
       initContainers:
         - name: wait-for-mysql
           image: busybox
-          command: ['sh', '-c', 'until nc -z mysql-svc 3306; do sleep 2; done;']
+          command: ['sh', '-c', 'until nc -z mysql-svc 3306; do sleep 2; done; echo "MySQL is ready! Exiting.."']
         - name: wait-for-mongo
           image: busybox
-          command: ['sh', '-c', 'until nc -z mongo-svc 27017; do sleep 2; done;']
+          command: ['sh', '-c', 'until nc -z mongo-svc 27017; do sleep 2; done; echo "Mongo is ready! Exiting.."']
