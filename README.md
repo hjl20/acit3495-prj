@@ -8,11 +8,12 @@
 - Docker
 - Docker Compose
 
-# Setup
+# Docker 
+## Setup
 1. Rename `.env.<appname>-sample` files to `.env.<appname>`
 1. Update environment variables in the `.env` files to your own configurations
 
-# Start up
+## Start up
 If initial startup, run `docker compose up --build`
 
 Otherwise, run `docker compose up`
@@ -57,9 +58,8 @@ If you do not see your changes after rebuilding the custom **web** image, try th
   - Process the data to get the minimum and maximum values
 
 
-## Cloud and Kubernetes deployment
-
-### AWS cluster
+# Cloud and Kubernetes deployment
+## AWS Cluster Setup
 
 1. Create the AWS cluster with this command
 
@@ -73,11 +73,11 @@ Example of the command above:
 
 3. Once the cluster is ready, you can now enter kubectl commands in your cli
 
-### Deploy the App
+## Deploy the App
 1. From the root directory, run the following:
 ```./k8s-deploy.sh```
 
-### Teardown the App
+## Teardown the App
 1. From the root directory, run the following:
 ```./k8s-teardown.sh```
 
@@ -91,7 +91,7 @@ Example of the command above:
 
 ```kubectl get pods --watch -n acit3495prj2```
 
-### Delete cluster
+## Delete cluster
 1. Enter the command below to delete cluster
 
 ```eksctl delete cluster --name=<clustername> --region=<regionname>```
@@ -100,7 +100,7 @@ Example of the command above:
 ## AutoScaling test
 1. Create the pod that handles the autoscaling
 
-```kubectl apply -f web-hpa.yml```
+```kubectl apply -f kubernetes/web-hpa.yml```
 
 2. Simulate a heavy load being applied to web service
 
