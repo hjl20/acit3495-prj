@@ -2,7 +2,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: analytics
-  namespace: default
 spec:
   replicas: 1
   selector:
@@ -19,23 +18,27 @@ spec:
           envFrom:
           - configMapRef:
               name: mysql-config
+          - secretRef:
+              name: mysql-secret
           - configMapRef:
               name: mongo-config
+          - secretRef:
+              name: mongo-secret
           env:
           - name: MONGO_HOSTNAME
-            value: mongo
+            valueFrom:
+              configMapKeyRef:
+                name: app-config
+                key: MONGO_HOSTNAME
           - name: MYSQL_HOSTNAME
-            value: mysql
-          # readinessProbe:
-          #   httpGet:
-          #     path: /health # add to app.js just to see the health of the pod?
-          #     port: 5000
-          #   initialDelaySeconds: 5
-          #   periodSeconds: 10
+            valueFrom:
+              configMapKeyRef:
+                name: app-config
+                key: MYSQL_HOSTNAME
       initContainers:
         - name: wait-for-mysql
           image: busybox
-          command: ['sh', '-c', 'until nc -z mysql 3306; do sleep 2; done;']
+          command: ['sh', '-c', 'until nc -z mysql-svc 3306; do sleep 2; done; echo "MySQL is ready! Exiting.."']
         - name: wait-for-mongo
           image: busybox
-          command: ['sh', '-c', 'until nc -z mongo 27017; do sleep 2; done;']
+          command: ['sh', '-c', 'until nc -z mongo-svc 27017; do sleep 2; done; echo "Mongo is ready! Exiting.."']

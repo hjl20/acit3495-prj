@@ -12,21 +12,60 @@ spec:
       labels:
         app: web
     spec:
+      initContainers:
+      - name: migration
+        image: jparras1/migration:latest
+        envFrom:
+        - configMapRef:
+            name: mysql-config
+        - secretRef:
+            name: mysql-secret
+        env:
+          - name: MYSQL_HOSTNAME
+            valueFrom:
+              configMapKeyRef:
+                name: app-config
+                key: MYSQL_HOSTNAME
+        command: ['sh', '-c', 'until nc -z mysql-svc 3306; do sleep 2; done; echo "MySQL is ready! Starting migration.."; npx knex migrate:latest; echo "Migration completed! Exiting.."']
+      - name: wait-for-mongo
+        image: busybox
+        command: ['sh', '-c', 'until nc -z mongo-svc 27017; do sleep 2; done; echo "Mongo is ready! Exiting.."']
       containers:
       - name: web
         image: jparras1/migration:latest
         envFrom:
-          - configMapRef:
-              name: web-config
+          - secretRef:
+              name: web-secret
           - configMapRef:
               name: mysql-config
+          - secretRef:
+              name: mysql-secret
           - configMapRef:
               name: mongo-config
+          - secretRef:
+              name: mongo-secret
+        env:
+          - name: MONGO_HOSTNAME
+            valueFrom:
+              configMapKeyRef:
+                name: app-config
+                key: MONGO_HOSTNAME
+          - name: MYSQL_HOSTNAME
+            valueFrom:
+              configMapKeyRef:
+                name: app-config
+                key: MYSQL_HOSTNAME
         ports:
           - containerPort: 3000
         # readinessProbe:
         #   httpGet:
-        #     path: "/health"
+        #     path: /health
+        #     port: 3000
+        #   initialDelaySeconds: 5
+        #   periodSeconds: 5
+        # livenessProbe:
+        #   httpGet:
+        #     path: /health
         #     port: 3000
         #   initialDelaySeconds: 5
         #   periodSeconds: 5

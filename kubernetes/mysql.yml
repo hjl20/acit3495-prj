@@ -7,9 +7,8 @@ spec:
     storage: 1Gi
   accessModes:
     - ReadWriteOnce
-  storageClassName: manual
   hostPath:
-    path: "/mnt/data/mysql"
+    path: /mnt/data/mysql
 
 ---
 
@@ -23,7 +22,6 @@ spec:
   resources:
     requests:
       storage: 512m
-  storageClassName: manual
 
 ---
 
@@ -47,8 +45,10 @@ spec:
         envFrom:
           - configMapRef:
               name: mysql-config
+          - secretRef:
+              name: mysql-secret
         volumeMounts:
-          - mountPath: "/var/lib/mysql"
+          - mountPath: /var/lib/mysql
             name: mysql-storage
         ports:
           - containerPort: 3306
@@ -67,8 +67,9 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: mysql
+  name: mysql-svc
 spec:
+  type: ClusterIP
   ports:
     - port: 3306
   selector:
