@@ -74,57 +74,22 @@ Example of the command above:
 3. Once the cluster is ready, you can now enter kubectl commands in your cli
 
 ### Deploy the App
-1. Ensure you are in the root directory. Create a configmap using the mongo-init.js script
+1. From the root directory, run the following:
+```./k8s-deploy.sh```
 
-```kubectl create configmap mongo-init-script --from-file=mongo-init.js```
-
-2. Go to the kubernetes folder and apply the rest of the configmaps using the yaml files
-
-```kubectl apply -f mysql-config.yml```
-
-```kubectl apply -f mongo-config.yml```
-
-```kubectl apply -f web-config.yml```
-
-3. Deploy mysql and mongo databases
-
-```kubectl apply -f mysql.yml```
-
-```kubectl apply -f mongo.yml```
-
-4. The next steps requires mysql and mongo pods to be completely ready. Enter either one of these commands to check the status of the mysql and mongo pods:
-
-```kubectl get pods```
-
-```kubectl get pods --watch```
-
-Both pods needs to say '1/1 Running'
-
-5. Run the migration job
-
-```kubectl apply -f migration.yml```
-
-Wait for the job to be completed
-
-6. Deploy web and analytics services
-
-```kubectl apply -f web.yml```
-
-```kubectl apply -f analytics.yml```
-
-7. Get the exposed DNS
-
-```kubectl get svc```
+### Teardown the App
+1. From the root directory, run the following:
+```./k8s-teardown.sh```
 
 ### Test the self healing capabilities of the frontend
 
 1. Delete one of the web pods
 
-```kubectl delete pod <podname>```
+```kubectl delete pod <podname> -n acit3495prj2```
 
 2. Watch the pod get deleted and k8s to create a new pod
 
-```kubectl get pods --watch```
+```kubectl get pods --watch -n acit3495prj2```
 
 ### Delete cluster
 1. Enter the command below to delete cluster
