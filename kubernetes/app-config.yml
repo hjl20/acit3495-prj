@@ -5,4 +5,4 @@ metadata:
 data:
   MONGO_HOSTNAME: mongo-svc
   MYSQL_HOSTNAME: mysql-svc
-  WEB_PORT: 3000
+  WEB_PORT: "3000"
