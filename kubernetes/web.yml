@@ -40,12 +40,12 @@ spec:
             valueFrom:
               configMapKeyRef:
                 name: app-config
-                value: MONGO_HOSTNAME
+                key: MONGO_HOSTNAME
           - name: MYSQL_HOSTNAME
             valueFrom:
               configMapKeyRef:
                 name: app-config
-                value: MYSQL_HOSTNAME
+                key: MYSQL_HOSTNAME
         ports:
           - containerPort: 3000
         # readinessProbe:
