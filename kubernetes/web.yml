@@ -39,12 +39,18 @@ spec:
               name: mongo-secret
         ports:
           - containerPort: 3000
-        readinessProbe:
-          httpGet:
-            path: "/health"
-            port: 3000
-          initialDelaySeconds: 5
-          periodSeconds: 5
+        # readinessProbe:
+        #   httpGet:
+        #     path: /health
+        #     port: 3000
+        #   initialDelaySeconds: 5
+        #   periodSeconds: 5
+        # livenessProbe:
+        #   httpGet:
+        #     path: /health
+        #     port: 3000
+        #   initialDelaySeconds: 5
+        #   periodSeconds: 5
 
 ---
 
