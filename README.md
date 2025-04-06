@@ -67,7 +67,7 @@ If you do not see your changes after rebuilding the custom **web** image, try th
 
 Example of the command above:
 
-```eksctl create cluster --name=project2 ---region=us-west-2 --node-type=t3.small --managed```
+```eksctl create cluster --name=project2 --region=us-west-2 --node-type=t3.small --managed```
 
 2. Creation of the cluster will take around 15 minutes
 
@@ -95,3 +95,29 @@ Example of the command above:
 1. Enter the command below to delete cluster
 
 ```eksctl delete cluster --name=<clustername> --region=<regionname>```
+
+
+## AutoScaling test
+1. Create the pod that handles the autoscaling
+
+```kubectl apply -f web-hpa.yml```
+
+2. Simulate a heavy load being applied to web service
+
+```kubectl run -i --tty load-generator --rm --image=busybox:1.28 --restart=Never -- /bin/sh -c "while sleep 0.01; do wget -q -O- http://web-lb; done"```
+
+3. Scale up the web service
+
+Open another terminal and run this command to see the changes in the replicas
+
+```kubectl get hpa web-hpa --watch```
+
+Once the cpu usage exceeds the allowable cpu target, it will start creating replicas (this may take a few minutes)
+
+4. Scale down the service
+
+Remove the load by simply entering Ctrl+C from the created pod on #2
+
+Once the cpu usage drops to 0%, the autoscaler will terminate the replicated pods. This will also take some time so for presentation purposes, it should look like the screenshot below
+
+![alt text](image.png)
