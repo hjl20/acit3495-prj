@@ -2,7 +2,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: analytics
-  namespace: default
 spec:
   replicas: 1
   selector:
@@ -19,19 +18,17 @@ spec:
           envFrom:
           - configMapRef:
               name: mysql-config
+          - secretRef:
+              name: mysql-secret
           - configMapRef:
               name: mongo-config
+          - secretRef:
+              name: mongo-secret
           env:
           - name: MONGO_HOSTNAME
             value: mongo
           - name: MYSQL_HOSTNAME
             value: mysql
-          # readinessProbe:
-          #   httpGet:
-          #     path: /health # add to app.js just to see the health of the pod?
-          #     port: 5000
-          #   initialDelaySeconds: 5
-          #   periodSeconds: 10
       initContainers:
         - name: wait-for-mysql
           image: busybox
