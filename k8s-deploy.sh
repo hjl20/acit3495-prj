@@ -11,7 +11,7 @@ kubectl apply -f kubernetes/mysql-config.yml
 kubectl apply -f kubernetes/mysql-secret.yml
 kubectl apply -f kubernetes/mongo-config.yml
 kubectl apply -f kubernetes/mongo-secret.yml
-kubectl apply -f kubernetes/web-config.yml
+kubectl apply -f kubernetes/app-config.yml
 kubectl apply -f kubernetes/web-secret.yml
 
 kubectl apply -f kubernetes/mysql.yml
@@ -20,9 +20,7 @@ kubectl apply -f kubernetes/mongo.yml
 # migration wait until mysql ready (this should work with the current cmds)
 # web waits until migration completed (this should work with init container)
 kubectl apply -f kubernetes/web.yml
-
-# todo: test analytics
-# kubectl apply -f kubernetes/analytics.yml
+kubectl apply -f kubernetes/analytics.yml
 
 # kubectl get svc
 
